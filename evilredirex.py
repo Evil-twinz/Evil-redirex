@@ -16,7 +16,7 @@ import argparse
 
 # Constants for update check
 UPDATE_URL = "https://raw.githubusercontent.com/Evil-twinz/Evil-redirex/refs/heads/main/evilredirex.py"  # Update with your actual URL
-CURRENT_VERSION = "1.0"  # Increment this for each new release
+CURRENT_VERSION = "1.1"  # Increment this for each new release
 
 # Disable SSL warnings
 urllib3.disable_warnings(InsecureRequestWarning)
