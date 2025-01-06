@@ -22,6 +22,8 @@ Example Usage:
 
     1.Test a single URL:
             evilredirex -u "http://example.com"
+![image](https://github.com/user-attachments/assets/088255d9-a07e-4bcd-8a94-935ad18ddf28)
+
             
     2.Test URLs from a file:
             cat urls.txt | evilredirex
