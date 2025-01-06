@@ -1,3 +1,4 @@
+import os
 import requests
 import re
 import time
@@ -13,6 +14,9 @@ import urllib3
 import argparse
 
 
+# Constants for update check
+UPDATE_URL = "https://raw.githubusercontent.com/Evil-twinz/Evil-redirex/refs/heads/main/evilredirex.py"  # Update with your actual URL
+CURRENT_VERSION = "1.0.0"  # Increment this for each new release
 
 # Disable SSL warnings
 urllib3.disable_warnings(InsecureRequestWarning)
@@ -277,6 +281,39 @@ def process_urls(urls):
             return
 
 
+# Check for updates
+
+def check_for_updates():
+    """
+    Check if there's a newer version of the script available online.
+    """
+    try:
+        response = requests.get(UPDATE_URL, timeout=10)
+        response.raise_for_status()
+        remote_code = response.text
+
+        # Look for the version in the remote code
+        remote_version_line = next(line for line in remote_code.splitlines() if "CURRENT_VERSION" in line)
+        remote_version = remote_version_line.split('=')[1].strip().strip('"')
+
+        if remote_version > CURRENT_VERSION:
+            print(f"[+] New version available: {remote_version}. Updating now...")
+            with open(__file__, 'w') as current_file:
+                current_file.write(remote_code)
+            print("[+] Update complete. Restarting...")
+            os.execv(sys.executable, ['python3'] + sys.argv)  # Restart the script
+        else:
+            print("[+] You are using the latest version.")
+
+    except requests.RequestException as e:
+        print(f"[!] Failed to check for updates: {e}")
+    except StopIteration:
+        print("[!] Unable to find version information in the remote script.")
+    except Exception as e:
+        print(f"[!] Unexpected error during update: {e}")
+
+
+
 def main():
     # Argument parser setup
     parser = argparse.ArgumentParser(description="Test for open redirects and XSS vulnerabilities.")
@@ -307,6 +344,7 @@ def main():
 
 if __name__ == "__main__":
     try:
+        check_for_updates()
         main()
     except KeyboardInterrupt:
         print(colored("[!] Program terminated by user.", "red"))
