@@ -334,7 +334,7 @@ def main():
         ||==  \\ // || ||    ||_// ||==  ||  )) || ||_// ||==   )X( 
         ||___  \V/  || ||__| || \\ ||___ ||_//  || || \\ ||___ // \\
         """, "cyan")
-        cprint(r"""                                  @ Srilakivarma Evil-Twinz | v1.0                                         
+        cprint(r"""                                  @ Srilakivarma Evil-Twinz | v1.1                                         
         """, "green", attrs=["blink"])
 
     # Get URL from argument or stdin
