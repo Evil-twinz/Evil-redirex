@@ -16,7 +16,7 @@ from packaging.version import Version
 
 # Constants for update check
 UPDATE_URL = "https://raw.githubusercontent.com/Evil-twinz/Evil-redirex/refs/heads/main/evilredirex.py"  # Update with your actual URL
-CURRENT_VERSION = "1.0"  # Increment this for each new release
+CURRENT_VERSION = "1.2"  # Increment this for each new release
 
 
 # Disable SSL warnings
@@ -362,7 +362,7 @@ def main():
         ||==  \\ // || ||    ||_// ||==  ||  )) || ||_// ||==   )X( 
         ||___  \V/  || ||__| || \\ ||___ ||_//  || || \\ ||___ // \\
         """, "cyan")
-        cprint(r"""                                  @ Srilakivarma Evil-Twinz | v1.0                                         
+        cprint(r"""                                  @ Srilakivarma Evil-Twinz | v1.2                                         
         """, "green", attrs=["blink"])
 
     # Get URL from argument or stdin
